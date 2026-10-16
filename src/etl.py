@@ -47,7 +47,12 @@ def run_etl():
     df_clean['tenure_days'] = (df_clean[exit_col].fillna(reference_date) - df_clean[join_col]).dt.days
     df_clean['join_year'] = df_clean[join_col].dt.year
     df_clean['join_month'] = df_clean[join_col].dt.month
-    df_clean = df_clean.drop_duplicates(subset=['employee_id'])
+        # Rule: duplicate employee_id -> reject every copy after the first
+    dup_mask = df_clean.duplicated(subset=['employee_id'], keep='first')
+    df_dups = df_clean[dup_mask].copy()
+    df_dups['rejection_reason'] = "duplicate employee_id"
+    df_rejected = pd.concat([df_rejected, df_dups])
+    df_clean = df_clean[~dup_mask]
 
     clean_file_path = os.path.join(CLEAN_DIR, "employees_clean.csv")
     rejected_file_path = os.path.join(REJECTED_DIR, "employees_rejected.csv")
