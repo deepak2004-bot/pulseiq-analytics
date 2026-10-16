@@ -1,0 +1,9 @@
+ETL Run Started at: 2026-10-14 14:49:31.790382
+Extracted 'employees': 745 rows
+
+--- ETL Completed Successfully ---
+Start Time: 2026-10-14 14:49:31.790382
+End Time: 2026-10-14 14:49:35.267222
+Rows In (Employees): 745
+Rows Out (Clean): 745
+Rows Rejected: 0
